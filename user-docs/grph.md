@@ -5,13 +5,13 @@ graph TD
         A[Kubernetes API Server]
         KGC[KGateway Controller]
         
-        KGC -- watches --> KGW_CRD[Gateway CRD<br>(gateway.kgateway.dev)]
-        KGC -- watches --> KHTTP_CRD[HTTPRoute CRD<br>(gateway.kgateway.dev)]
+        KGC -- watches --> KGW_CRD["Gateway CRD<br>(gateway.kgateway.dev)"]
+        KGC -- watches --> KHTTP_CRD["HTTPRoute CRD<br>(gateway.kgateway.dev)"]
         KGC -- watches --> KSVC[KServe InferenceService]
         
         A -- informs --> KGC
         
-        KGC -- configures --> EP[Envoy Proxy<br>(Data Plane)]
+        KGC -- configures --> EP["Envoy Proxy<br>(Data Plane)"]
     end
 
     subgraph "Data Plane"
