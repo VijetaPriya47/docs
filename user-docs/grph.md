@@ -32,6 +32,6 @@ graph TD
 
     style KGC fill:#d4edda,stroke:#155724
     style EP fill:#cce5ff,stroke:#004085
-    style M1 fill:#fff3cd,stroke:#856404
+    style M1 fill:#fff3cd,stroke:##783f04
     style M2 fill:#fff3cd,stroke:#856404
     style MN fill:#fff3cd,stroke:#856404
