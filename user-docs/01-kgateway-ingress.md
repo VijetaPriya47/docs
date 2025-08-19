@@ -8,17 +8,16 @@
 
 Without an ingress controller, your ML models would be isolated inside your Kubernetes cluster - unreachable from the outside world. KGateway solves this by:
 
-- 🚪 **Providing External Access** - Makes your AI models accessible via HTTP/HTTPS
-- 🛡️ **Adding Security** - Implements authentication, authorization, and rate limiting
-- 📊 **Enabling Monitoring** - Provides metrics, logging, and tracing
-- ⚡ **Managing Traffic** - Handles load balancing and routing
-- 🔧 **Simplifying Operations** - Centralized configuration and management
+-  **Providing External Access** - Makes your AI models accessible via HTTP/HTTPS
+-  **Adding Security** - Implements authentication, authorization, and rate limiting
+-  **Enabling Monitoring** - Provides metrics, logging, and tracing
+-  **Managing Traffic** - Handles load balancing and routing
+-  **Simplifying Operations** - Centralized configuration and management
 
 ## Prerequisites
 
 ### Required Components
 - **KGateway Controller** - Deployed and running
-- **Envoy Gateway** - Version 1.3.0 or higher
 - **KServe** - With Gateway API integration enabled
 - **Kubernetes Cluster** - Version 1.29 or higher
 
@@ -29,9 +28,6 @@ Without an ingress controller, your ML models would be isolated inside your Kube
 kubectl get pods -n kgateway-system
 kubectl logs -n kgateway-system deployment/kgateway-controller
 
-# Check Envoy Gateway status
-kubectl get pods -n envoy-gateway-system
-kubectl logs -n envoy-gateway-system deployment/envoy-gateway
 
 # Check KServe status
 kubectl get pods -n kserve
@@ -128,13 +124,12 @@ kubectl wait --timeout=5m -n kgateway-system deployment/kgateway-controller --fo
 ```bash
 # Create Gateway resource
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: gateway.kgateway.dev/v1alpha1 # Or other version
 kind: Gateway
 metadata:
   name: kgateway-gateway
-  namespace: kgateway-system
 spec:
-  gatewayClassName: envoy
+  gatewayClassName: kgateway # This class name must match KGateway's
   listeners:
   - name: http
     port: 80
@@ -191,7 +186,7 @@ kubectl wait --timeout=10m -n ml-models inferenceservice/sklearn-iris --for=cond
 ```bash
 # Create HTTPRoute for model access
 kubectl apply -f - <<EOF
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: gateway.kgateway.dev/v1alpha1 # Or other version
 kind: HTTPRoute
 metadata:
   name: model-routes
@@ -502,3 +497,4 @@ kubectl get gatewayclass
 ---
 
 *KGateway provides a robust, scalable ingress solution for your ML models. With proper configuration and monitoring, you can serve models reliably in production.*
+
